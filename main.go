@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"os/user"
@@ -9,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/elastic/go-sysinfo"
-	"github.com/lichunqiang/gputil"
+	"github.com/jaypipes/ghw"
 	cpu2 "github.com/shirou/gopsutil/v4/cpu"
 	"github.com/shirou/gopsutil/v4/disk"
 )
@@ -67,8 +66,7 @@ func main() {
 		return
 	}
 
-	ctx := context.Background()
-	gpu, err := gputil.GetGPUs(ctx)
+	gpu, err := ghw.GPU()
 	if err != nil {
 		fmt.Println("Fehler beim Abrufen der Systeminfos:", err)
 		return
@@ -101,8 +99,8 @@ func main() {
 	fmt.Printf(ColorLogo+"    ____\\_\\  \\   \\ \\__\\ \\ \\_______\\ \\__\\   \\ \\__\\ \\__\\ \\__\\\\ \\__\\   "+ColorKey+"Uptime:   "+ColorVal+"%s\n", uptimeStr)
 	fmt.Printf(ColorLogo+"   |\\_________\\   \\|__|  \\|_______|\\|__|    \\|__|\\|__|\\|__| \\|__|   "+ColorKey+"RAM:      "+ColorVal+"%s\n", ramStr)
 	fmt.Printf(ColorLogo+"   \\|_________|                                                     "+ColorKey+"CPU:      "+ColorVal+"%s\n", cpuStr)
-	for i, gpu := range gpu {
-		fmt.Printf("                                                                    "+ColorKey+"GPU%d:     "+ColorVal+"%s\n", i, gpu.Name)
+	for i, gpu := range gpu.GraphicsCards {
+		fmt.Printf("                                                                    "+ColorKey+"GPU%d:     "+ColorVal+"%s\n", i, gpu.DeviceInfo.Product.Name)
 	}
 	fmt.Printf("                                                                    "+ColorKey+"Disk:     "+ColorVal+"%s\n", diskStr)
 	fmt.Println(ColorReset)
