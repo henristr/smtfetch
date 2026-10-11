@@ -24,7 +24,7 @@
             version = "unstable";
             src = ./.;
 
-            vendorHash = null;
+            vendorHash = "sha256-ugU3BeI7jGWR9U0CE1jJpbVUM2/zu3aeA1AOZa/v2SI=";
             subPackages = [ "." ];
 
             meta = {
